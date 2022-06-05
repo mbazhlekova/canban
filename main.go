@@ -1,31 +1,17 @@
 package main
 
 import (
-	"net/http"
-	"os"
-
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	"github.com/gin-gonic/gin"
+	"github.com/mbazhlekova/canban/config"
+	"github.com/mbazhlekova/canban/routes"
 )
 
 func main() {
-	e := echo.New()
+	r := gin.Default()
 
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
+	routes.ProjectRoute(r)
 
-	e.GET("/", func(c echo.Context) error {
-		return c.HTML(http.StatusOK, "Hello, world! <3")
-	})
+	config.ConnectDB()
 
-	e.GET("/ping", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, struct{ Status string }{Status: "OK"})
-	})
-
-	httpPort := os.Getenv("HTTP_PORT")
-	if httpPort == "" {
-		httpPort = "8081"
-	}
-
-	e.Logger.Fatal(e.Start(":" + httpPort))
+	r.Run("localhost:8081")
 }

@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1
 
-FROM golang:1.16-alpine
+FROM golang:1.18-alpine
 WORKDIR /app
 COPY go.mod ./
 COPY go.sum ./
 RUN go mod download
-COPY *.go ./
-RUN go build -o /docker-gs-ping
+COPY . ./
+RUN GO111MODULE=on CGO_ENABLED=0 GOOS=linux go build -o /canban
 EXPOSE 8081
-CMD [ "/docker-gs-ping" ]
+CMD [ "/canban" ]
