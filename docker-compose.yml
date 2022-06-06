@@ -14,10 +14,10 @@ services:
       build: .
       ports: 
         - "54387:54387"
-      depends_on:
-        - db
       environment:
          PORT: "54387"
+      depends_on:
+        - db
       networks:
         - mongo-go
 
