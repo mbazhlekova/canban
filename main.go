@@ -13,5 +13,5 @@ func main() {
 
 	config.ConnectDB()
 
-	r.Run("localhost:8081")
+	r.Run()
 }

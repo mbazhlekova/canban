@@ -1,4 +1,5 @@
 version: '3'
+
 services:
    db:
       image: mongo
@@ -6,9 +7,22 @@ services:
          - "27017:27017"
       volumes:
          - "./mongodata:/data/db"
+      networks:
+         - mongo-go
+
    app:
       build: .
       ports: 
-        - "8081:8081"
+        - "54387:54387"
       depends_on:
-        - mongodb
+        - db
+      environment:
+         PORT: "54387"
+      networks:
+        - mongo-go
+
+volumes: 
+   mongodata: {}
+
+networks: 
+   mongo-go:
